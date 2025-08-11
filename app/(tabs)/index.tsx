@@ -1,24 +1,14 @@
-import { router } from "expo-router";
-import { useState } from "react";
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+
+import CustomButton from "@/components/CustomButton";
 
 export default function HomeScreen() {
-  const [text, setText] = useState("");
-
-  const handleSave = () => {
-    console.log(text);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.text}>Home</Text>
       </View>
-      <TextInput value={text} onChangeText={setText} style={styles.input} />
-      <Button title="Save" onPress={handleSave} />
-      <Pressable onPress={() => router.push("/setting")}>
-        <Text>Go to Setting</Text>
-      </Pressable>
+      <CustomButton label="버튼" onPress={() => {}} />
     </SafeAreaView>
   );
 }
