@@ -1,4 +1,5 @@
 import { colors } from "@/constants";
+import { ForwardedRef, forwardRef } from "react";
 import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
 
 interface InputFieldProps extends TextInputProps {
@@ -7,12 +8,23 @@ interface InputFieldProps extends TextInputProps {
   error?: string;
 }
 
-const InputField = ({ label, variant = "field", error, ...props }: InputFieldProps) => {
+const InputField = (
+  { label, variant = "field", error, ...props }: InputFieldProps,
+  ref?: ForwardedRef<TextInput>,
+) => {
   return (
     <View>
       {label && <Text style={styles.label}>{label}</Text>}
       <View style={[styles.container, styles[variant], Boolean(error) && styles.inputError]}>
-        <TextInput style={styles.input} placeholderTextColor={colors.GRAY_500} {...props} />
+        <TextInput
+          ref={ref}
+          style={styles.input}
+          placeholderTextColor={colors.GRAY_500}
+          autoCapitalize="none"
+          spellCheck={false}
+          autoCorrect={false}
+          {...props}
+        />
       </View>
       {Boolean(error) && <Text style={styles.error}>{error}</Text>}
     </View>
@@ -53,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InputField;
+export default forwardRef(InputField);
