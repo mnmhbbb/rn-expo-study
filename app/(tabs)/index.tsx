@@ -1,6 +1,7 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 import CustomButton from "@/components/CustomButton";
+import { router } from "expo-router";
 
 export default function HomeScreen() {
   return (
@@ -8,7 +9,7 @@ export default function HomeScreen() {
       <View>
         <Text style={styles.text}>Home</Text>
       </View>
-      <CustomButton label="버튼" onPress={() => {}} />
+      <CustomButton label="버튼" onPress={() => router.push("/auth")} />
     </SafeAreaView>
   );
 }
