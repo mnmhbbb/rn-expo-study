@@ -3,6 +3,8 @@ const colors = {
   BLACK: "#000000",
   ORANGE_100: "#FFDFDF",
   ORANGE_600: "#FF6B57",
+  RED_100: "#FFDFDF",
+  RED_500: "#FF5F5F",
   GRAY_700: "#374151",
   GRAY_600: "#4B5563",
   GRAY_500: "#6B7280",
