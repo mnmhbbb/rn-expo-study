@@ -22,6 +22,22 @@ export default function AuthLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="login"
+        options={{
+          headerShown: true,
+          title: "이메일 로그인",
+          headerBackButtonDisplayMode: "minimal",
+        }}
+      />
+      <Stack.Screen
+        name="signup"
+        options={{
+          headerShown: true,
+          title: "회원가입",
+          headerBackButtonDisplayMode: "minimal",
+        }}
+      />
     </Stack>
   );
 }
