@@ -5,6 +5,7 @@ import EmailInput from "@/components/EmailInput";
 import FixedBottomCTA from "@/components/FixedBottomCTA";
 import PasswordConfirmInput from "@/components/PasswordConfirmInput";
 import PasswordInput from "@/components/PasswordInput";
+import useAuth from "@/hooks/queries/useAuth";
 
 type FormValues = {
   email: string;
@@ -13,6 +14,8 @@ type FormValues = {
 };
 
 export default function SignupScreen() {
+  const { signupMutation } = useAuth();
+
   const signupForm = useForm<FormValues>({
     defaultValues: {
       email: "",
@@ -22,14 +25,16 @@ export default function SignupScreen() {
   });
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
+    const { email, password } = data;
+    signupMutation.mutate({ email, password });
   };
 
   return (
     <FormProvider {...signupForm}>
       <View style={styles.container}>
         <EmailInput />
-        <PasswordInput submitBehavior="submit" /> <PasswordConfirmInput />
+        <PasswordInput submitBehavior="submit" />
+        <PasswordConfirmInput />
       </View>
       <FixedBottomCTA label="회원가입하기" onPress={signupForm.handleSubmit(onSubmit)} />
     </FormProvider>
