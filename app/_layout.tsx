@@ -1,8 +1,12 @@
+import { QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+
+import queryClient from "@/api/queryClient";
+import useAuth from "@/hooks/queries/useAuth";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,6 +24,17 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RootLayoutNavigator />
+    </QueryClientProvider>
+  );
+}
+
+function RootLayoutNavigator() {
+  const { auth } = useAuth();
+  console.log(auth); // 확인용
 
   return (
     <Stack>
