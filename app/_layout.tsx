@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import Toast from "react-native-toast-message";
 
 import queryClient from "@/api/queryClient";
 import useAuth from "@/hooks/queries/useAuth";
@@ -27,14 +28,22 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RootLayoutNavigator />
+      <RootNavigator />
+      <Toast />
     </QueryClientProvider>
   );
 }
 
-function RootLayoutNavigator() {
+function RootNavigator() {
   const { auth } = useAuth();
-  console.log(auth); // 확인용
+
+  useEffect(() => {
+    auth.id &&
+      Toast.show({
+        type: "success",
+        text1: `${auth.nickname || "회원"}님 환영합니다`,
+      });
+  }, [auth]);
 
   return (
     <Stack>
