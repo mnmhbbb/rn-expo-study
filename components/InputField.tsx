@@ -15,7 +15,14 @@ const InputField = (
   return (
     <View>
       {label && <Text style={styles.label}>{label}</Text>}
-      <View style={[styles.container, styles[variant], Boolean(error) && styles.inputError]}>
+      <View
+        style={[
+          styles.container,
+          styles[variant],
+          Boolean(error) && styles.inputError,
+          props.multiline && styles.multiline,
+        ]}
+      >
         <TextInput
           ref={ref}
           style={styles.input}
@@ -62,6 +69,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.RED_500,
     marginTop: 5,
+  },
+  multiline: {
+    alignItems: "flex-start",
+    paddingVertical: 10,
+    height: 200,
   },
 });
 
