@@ -1,4 +1,4 @@
-import { CreatePostDto } from "@/types";
+import { CreatePostDto, Post } from "@/types";
 
 import axiosInstance from "@/api/axios";
 
@@ -8,4 +8,10 @@ const createPost = async (body: CreatePostDto) => {
   return data;
 };
 
-export { createPost };
+const getPosts = async (page = 1): Promise<Post[]> => {
+  const { data } = await axiosInstance.get(`/posts?page=${page}`);
+
+  return data;
+};
+
+export { createPost, getPosts };

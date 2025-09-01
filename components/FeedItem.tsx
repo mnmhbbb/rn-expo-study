@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import Profile from "@/components/Profile";
 import { colors } from "@/constants";
+import useAuth from "@/hooks/queries/useAuth";
 import { Post } from "@/types";
 
 interface FeedItemProps {
@@ -10,7 +11,9 @@ interface FeedItemProps {
 }
 
 export default function FeedItem({ post }: FeedItemProps) {
-  const isLiked = false;
+  const { auth } = useAuth();
+  const likeUsers = post.likes.map((like) => Number(like.userId));
+  const isLiked = likeUsers.includes(Number(auth.id));
 
   return (
     <View style={styles.container}>
@@ -33,7 +36,7 @@ export default function FeedItem({ post }: FeedItemProps) {
             size={16}
             color={isLiked ? colors.ORANGE_600 : colors.BLACK}
           />
-          <Text style={isLiked ? styles.activeMenuText : styles.menuText}>1</Text>
+          <Text style={isLiked ? styles.activeMenuText : styles.menuText}>{post.likes.length}</Text>
         </Pressable>
         <Pressable style={styles.menu}>
           <MaterialCommunityIcons
@@ -41,11 +44,11 @@ export default function FeedItem({ post }: FeedItemProps) {
             size={16}
             color={colors.BLACK}
           />
-          <Text style={styles.menuText}>1</Text>
+          <Text style={styles.menuText}>{post.commentCount || "댓글"}</Text>
         </Pressable>
         <Pressable style={styles.menu}>
           <Ionicons name="eye-outline" size={16} color={colors.BLACK} />
-          <Text style={styles.menuText}>1</Text>
+          <Text style={styles.menuText}>{post.viewCount}</Text>
         </Pressable>
       </View>
     </View>
