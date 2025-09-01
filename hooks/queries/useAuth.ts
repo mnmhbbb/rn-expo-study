@@ -5,13 +5,23 @@ import { useEffect } from "react";
 import { getMe, postLogin, postSignup } from "@/api/auth";
 import queryClient from "@/api/queryClient";
 import { removeHeader, setHeader } from "@/utils/header";
-import { deleteSecureStore, setSecureStore } from "@/utils/secureStore";
+import { deleteSecureStore, getSecureStore, setSecureStore } from "@/utils/secureStore";
 
 const useGetMe = () => {
-  const { data, isError } = useQuery({
+  const { data, isError, isSuccess } = useQuery({
     queryFn: getMe,
     queryKey: ["auth", "getMe"],
   });
+
+  // 유저 정보 가져오기를 성공한 경우, 헤더에 토큰 추가
+  useEffect(() => {
+    (async () => {
+      if (isSuccess) {
+        const accessToken = await getSecureStore("accessToken");
+        setHeader("Authorization", `Bearer ${accessToken}`);
+      }
+    })();
+  }, [isSuccess]);
 
   useEffect(() => {
     if (isError) {
