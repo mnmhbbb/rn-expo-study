@@ -13,4 +13,11 @@ const colors = {
   GRAY_100: "#F6F6F6",
 };
 
-export { colors };
+const queryKeys = {
+  AUTH: "auth",
+  GET_ME: "getMe",
+  POSTS: "posts",
+  GET_POSTS: "getPosts",
+};
+
+export { colors, queryKeys };

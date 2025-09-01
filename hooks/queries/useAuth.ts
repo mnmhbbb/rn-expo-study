@@ -4,13 +4,14 @@ import { useEffect } from "react";
 
 import { getMe, postLogin, postSignup } from "@/api/auth";
 import queryClient from "@/api/queryClient";
+import { queryKeys } from "@/constants";
 import { removeHeader, setHeader } from "@/utils/header";
 import { deleteSecureStore, getSecureStore, setSecureStore } from "@/utils/secureStore";
 
 const useGetMe = () => {
   const { data, isError, isSuccess } = useQuery({
     queryFn: getMe,
-    queryKey: ["auth", "getMe"],
+    queryKey: [queryKeys.AUTH, queryKeys.GET_ME],
   });
 
   // 유저 정보 가져오기를 성공한 경우, 헤더에 토큰 추가
@@ -39,7 +40,7 @@ const useLogin = () => {
     onSuccess: async ({ accessToken }) => {
       setHeader("Authorization", `Bearer ${accessToken}`);
       await setSecureStore("accessToken", accessToken);
-      queryClient.fetchQuery({ queryKey: ["auth", "getMe"] });
+      queryClient.fetchQuery({ queryKey: [queryKeys.AUTH, queryKeys.GET_ME] });
       router.replace("/");
     },
     onError: () => {},
@@ -62,7 +63,7 @@ const useAuth = () => {
   const logout = () => {
     removeHeader("Authorization");
     deleteSecureStore("accessToken");
-    queryClient.resetQueries({ queryKey: ["auth"] });
+    queryClient.resetQueries({ queryKey: [queryKeys.AUTH] });
     router.replace("/auth/login");
   };
 
