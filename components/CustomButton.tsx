@@ -6,7 +6,7 @@ import { Pressable, PressableProps, StyleSheet, Text } from "react-native";
 interface CustomButtonProps extends PressableProps {
   label: string;
   size?: "medium" | "large";
-  variant?: "filled" | "outlined";
+  variant?: "filled" | "outlined" | "standard";
 }
 
 const CustomButton = ({
@@ -40,10 +40,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 44,
   },
-  medium: {
-    width: "100%",
-    height: 38,
-  },
+  medium: {},
   filled: {
     backgroundColor: colors.ORANGE_600,
     fontSize: 14,
@@ -57,6 +54,12 @@ const styles = StyleSheet.create({
     color: colors.ORANGE_600,
     borderWidth: 1,
     borderColor: colors.ORANGE_600,
+  },
+  standard: {
+    backgroundColor: colors.WHITE,
+    fontSize: 14,
+    fontWeight: "bold",
+    color: colors.ORANGE_600,
   },
   pressed: {
     opacity: 0.8,
