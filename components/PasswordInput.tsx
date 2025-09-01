@@ -24,6 +24,8 @@ const PasswordInput = ({ submitBehavior = "blurAndSubmit" }: PasswordInputProps)
           }
         },
       }}
+      // render는 react-hook-form의 Controller가 렌더링 될 때 실행되는 함수로,
+      // ref는 Controller가 제공하는 입력 요소 참조(reference)
       render={({ field: { ref, value, onChange }, fieldState: { error } }) => (
         <InputField
           ref={ref}
