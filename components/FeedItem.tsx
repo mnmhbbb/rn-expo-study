@@ -11,9 +11,10 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 
 interface FeedItemProps {
   post: Post;
+  isDetail?: boolean; // FeedItem이 상세 스크린인지 여부
 }
 
-export default function FeedItem({ post }: FeedItemProps) {
+export default function FeedItem({ post, isDetail = false }: FeedItemProps) {
   const { showActionSheetWithOptions } = useActionSheet();
 
   const { auth } = useAuth();
@@ -32,7 +33,12 @@ export default function FeedItem({ post }: FeedItemProps) {
       (selectedIndex?: number) => {
         switch (selectedIndex) {
           case destructiveButtonIndex: // 삭제
-            deletePost.mutate(post.id);
+            deletePost.mutate(post.id, {
+              onSuccess: () => {
+                // 상세에서 삭제한 경우 리스트로 돌아가기
+                isDetail && router.back();
+              },
+            });
             break;
           case 1: // 수정
             router.push(`/post/update/${post.id}`);
@@ -46,8 +52,16 @@ export default function FeedItem({ post }: FeedItemProps) {
     );
   };
 
+  const handlePressFeed = () => {
+    if (!isDetail) {
+      router.push(`/post/${post.id}`);
+    }
+  };
+
+  const ContainerComponent = isDetail ? View : Pressable;
+
   return (
-    <View style={styles.container}>
+    <ContainerComponent style={styles.container} onPress={handlePressFeed}>
       <View style={styles.contentContainer}>
         <Profile
           onPress={() => {}}
@@ -92,7 +106,7 @@ export default function FeedItem({ post }: FeedItemProps) {
           <Text style={styles.menuText}>{post.viewCount}</Text>
         </Pressable>
       </View>
-    </View>
+    </ContainerComponent>
   );
 }
 
