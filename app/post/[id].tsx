@@ -1,7 +1,14 @@
 import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import AuthRoute from "@/components/AuthRoute";
 import CommentItem from "@/components/CommentItem";
@@ -10,12 +17,16 @@ import InputField from "@/components/InputField";
 import { colors } from "@/constants";
 import useCreateComment from "@/hooks/queries/useCreateComment";
 import useGetPost from "@/hooks/queries/useGetPost";
+import useKeyboard from "@/hooks/useKeyboard";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function PostDetailScreen() {
   const { id } = useLocalSearchParams();
 
   const { data: post, isPending, isError } = useGetPost(Number(id));
   const createComment = useCreateComment();
+  const { isKeyboardVisible } = useKeyboard();
+  const insets = useSafeAreaInsets();
 
   const [content, setContent] = useState("");
   const scrollRef = useRef<ScrollView | null>(null);
@@ -38,7 +49,12 @@ export default function PostDetailScreen() {
   return (
     <AuthRoute>
       <SafeAreaView style={styles.container}>
-        <KeyboardAwareScrollView contentContainerStyle={styles.awareScrollViewContainer}>
+        {/* 키보드가 인풋창을 가림 방지 - 안드로이드에선 KeyboardAwareScrollView로 해결되지 않는 이슈가 있어서 이 방식으로 변경함*/}
+        <KeyboardAvoidingView
+          contentContainerStyle={styles.awareScrollViewContainer}
+          behavior="height"
+          keyboardVerticalOffset={Platform.OS === "ios" || isKeyboardVisible ? 100 : insets.bottom}
+        >
           <ScrollView
             ref={scrollRef}
             style={{ marginBottom: 75 }}
@@ -73,7 +89,7 @@ export default function PostDetailScreen() {
               }
             />
           </View>
-        </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </AuthRoute>
   );
