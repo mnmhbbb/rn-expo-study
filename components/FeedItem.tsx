@@ -2,6 +2,7 @@ import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import ImagePreviewList from "@/components/ImagePreviewList";
 import Profile from "@/components/Profile";
 import { colors } from "@/constants";
 import useAuth from "@/hooks/queries/useAuth";
@@ -83,6 +84,7 @@ export default function FeedItem({ post, isDetail = false }: FeedItemProps) {
         <Text numberOfLines={3} style={styles.description}>
           {post.description}
         </Text>
+        <ImagePreviewList imageUris={post.imageUris} />
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>

@@ -1,5 +1,7 @@
 import CustomButton from "@/components/CustomButton";
 import DescriptionInput from "@/components/DescriptionInput";
+import ImagePreviewList from "@/components/ImagePreviewList";
+import PostWriteFooter from "@/components/PostWriteFooter";
 import TitleInput from "@/components/TitleInput";
 import { useCreatePost } from "@/hooks/queries/useCreatePost";
 import { ImageUri } from "@/types";
@@ -44,13 +46,15 @@ export default function PostWriteScreen() {
   }, []);
 
   return (
-    // 키보드가 인풋창을 가릴 경우
-    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <FormProvider {...postForm}>
+    <FormProvider {...postForm}>
+      {/* 키보드가 인풋창을 가릴 경우 */}
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <TitleInput />
         <DescriptionInput />
-      </FormProvider>
-    </KeyboardAwareScrollView>
+        <ImagePreviewList imageUris={postForm.watch().imageUris} />
+      </KeyboardAwareScrollView>
+      <PostWriteFooter />
+    </FormProvider>
   );
 }
 
