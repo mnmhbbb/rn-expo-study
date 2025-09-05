@@ -73,7 +73,7 @@ export default function PostDetailScreen() {
 
   return (
     <AuthRoute>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} edges={["bottom"]}>
         {/* 키보드가 인풋창을 가림 방지 - 안드로이드에선 KeyboardAwareScrollView로 해결되지 않는 이슈가 있어서 이 방식으로 변경함*/}
         <KeyboardAvoidingView
           contentContainerStyle={styles.awareScrollViewContainer}
